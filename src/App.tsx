@@ -1,5 +1,5 @@
 // import { ComponentExample } from "@/components/component-example";
-import { Home } from "@/components/page/Home";
+import { Home } from "@/components/page/home/Home";
 
 
 export function App() {
