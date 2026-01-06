@@ -5,6 +5,7 @@ import {
 } from "@/components/ui/input-group";
 import { Button } from "@/components/ui/button";
 import { CircleUser, MessageCircleMore } from "lucide-react";
+
 export function PersonalDetails() {
   return (
     <div className="bg-gray-50 rounded-xl p-4 text-left">
