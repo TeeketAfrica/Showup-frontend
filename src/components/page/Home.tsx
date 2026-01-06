@@ -33,8 +33,7 @@ export function Home() {
 
             <div className="flex flex-col mb-4">
               <h2 className="text-sm font-semibold text-card-foreground">
-                {" "}
-                Personal details{" "}
+                Personal details
               </h2>
               <p className="text-sm text-muted-foreground">
                 We are collecting this detail so we can properly identify you
