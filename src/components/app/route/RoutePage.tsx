@@ -1,9 +1,8 @@
 import { Card } from "@/components/ui/card";
 import { Header } from "@/components/shared/Header";
-import { PersonalDetails } from "@/components/app/home/PersonalDetails";
 import { Stepper } from "@/components/shared/Stepper";
 
-export function HomePage() {
+export function RoutePage() {
   return (
     <div className="flex flex-col items-center h-screen">
       {/* Main body */}
@@ -13,7 +12,25 @@ export function HomePage() {
           <Header />
 
           {/* Main content here */}
-          <PersonalDetails />
+          <div className="bg-gray-50 rounded-xl p-4 text-left">
+
+            {/* Body heading */}
+            <div className="flex flex-col mb-4">
+              <h2 className="text-sm font-semibold text-card-foreground">
+                Route selection
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Choose your route first and then select the bus to take next.
+              </p>
+            </div>
+
+            {/* Route selection */}
+            <div className="flex flex-col gap-2">
+                 
+            </div>
+            
+
+          </div>
         </Card>
       </div>
 

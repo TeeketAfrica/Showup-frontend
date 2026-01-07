@@ -1,13 +1,18 @@
 // import { ComponentExample } from "@/components/component-example";
-import { Home } from "@/components/app/home/HomePage";
+import { Routes, Route } from "react-router-dom";
+import { HomePage } from "@/components/app/home/HomePage";
+import { RoutePage } from "@/components/app/route/RoutePage";
 
 
 export function App() {
-return(
-    <>
-        <Home />
-    </>
-);
+    return (
+        <Routes>
+            <Route index element={<HomePage />} />
+            <Route path="route" element={<RoutePage />} />
+            <Route path="payment" element={<HomePage />} />
+
+        </Routes>
+    );
 }
 
 export default App;
