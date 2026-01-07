@@ -3,6 +3,7 @@ import { Header } from "@/components/shared/Header";
 import { Stepper } from "@/components/shared/Stepper";
 import { RouteSelection } from "./route/RouteSelection";
 import { BusSelection } from "./bus/BusSelection";
+import { BusEmpty } from "./bus/BusEmpty";
 
 export function RoutePage() {
   return (
@@ -12,12 +13,14 @@ export function RoutePage() {
         <Card className="max-w-sm shadow-none border-0 ring-0 focus-visible:ring-0 focus:ring-0">
           {/* Showup logo + description */}
           <Header />
-
           {/* Route selection */}
-          <RouteSelection />
-
-          {/* Bus selection */}
-          <BusSelection />
+          <div className="flex flex-col gap-2">
+            <RouteSelection />
+            {/* Bus selection */}
+            <BusSelection />
+            {/* empty state */}
+            <BusEmpty />
+          </div>
         </Card>
       </div>
 
