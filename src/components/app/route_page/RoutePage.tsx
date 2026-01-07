@@ -1,8 +1,8 @@
 import { Card } from "@/components/ui/card";
 import { Header } from "@/components/shared/Header";
 import { Stepper } from "@/components/shared/Stepper";
-import { RouteSelection } from "./RouteSelection";
-import { BusSelection } from "./BusSelection";
+import { RouteSelection } from "./route/RouteSelection";
+import { BusSelection } from "./bus/BusSelection";
 
 export function RoutePage() {
   return (

@@ -1,7 +1,7 @@
 // import { ComponentExample } from "@/components/component-example";
 import { Routes, Route } from "react-router-dom";
 import { HomePage } from "@/components/app/home/HomePage";
-import { RoutePage } from "@/components/app/route/RoutePage";
+import { RoutePage } from "@/components/app/route_page/RoutePage";
 
 
 export function App() {
