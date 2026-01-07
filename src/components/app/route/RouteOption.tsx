@@ -11,7 +11,7 @@ interface RouteOptionProps {
 
 export function RouteOption({ id, value, from, to, time }: RouteOptionProps) {
   return (
-    <div className="flex gap-4 p-3 bg-white rounded-md hover:ring-1 hover:ring-gray-100 items-center">
+    <div className="flex gap-4 p-3 bg-white rounded-md hover:ring-1 hover:ring-gray-100">
       {/* Trip details */}
       <div className="flex flex-col grow">
         {/* icon + trip name */}

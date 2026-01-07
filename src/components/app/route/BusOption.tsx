@@ -10,15 +10,13 @@ interface BusOptionProps {
 
 export function BusOption({ id, value, busType, seatLeft }: BusOptionProps) {
   return (
-    <div className="flex gap-4 p-3 bg-white rounded-md hover:ring-1 hover:ring-gray-100 items-center">
+    <div className="flex gap-4 p-3 bg-white rounded-md hover:ring-1 hover:ring-gray-100">
       {/* Trip details */}
       <div className="flex flex-col grow">
         {/* icon + trip name */}
         <div className="flex items-center gap-1">
           <Bus size="16" className="text-amber-500" />
-          <p className="text-sm font-semibold">
-            {busType}
-          </p>
+          <p className="text-sm font-semibold">{busType}</p>
         </div>
 
         {/* Trip start time */}
