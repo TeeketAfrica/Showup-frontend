@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { RouteOption } from "./RouteOption";
 
 export function RouteSelection() {
+  const [selectedRoute, setSelectedRoute] = useState("route1");
+
   return (
     <div className="bg-gray-50 rounded-xl p-4 text-left">
       {/* Body heading */}
@@ -14,15 +17,18 @@ export function RouteSelection() {
         </p>
       </div>
 
-      {/* Route selection */}
       <div className="flex flex-col gap-2">
-        <RadioGroup>
+        <RadioGroup
+          value={selectedRoute}
+          onValueChange={(val) => setSelectedRoute(val as string)}
+        >
           <RouteOption
             id="route1"
             value="route1"
             from="Yaba"
             to="Victoria Island"
             time="5:00 AM."
+            isActive={selectedRoute === "route1"}
           />
           <RouteOption
             id="route2"
@@ -30,6 +36,7 @@ export function RouteSelection() {
             from="Lekki"
             to="Ikoyi"
             time="6:00 AM."
+            isActive={selectedRoute === "route2"}
           />
         </RadioGroup>
       </div>
