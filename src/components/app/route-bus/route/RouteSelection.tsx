@@ -1,7 +1,12 @@
 import { RadioGroup } from "@/components/ui/radio-group";
 import { RouteOption } from "./RouteOption";
+import { useAppSelector } from "@/hooks/reduxHooks";
 
 export function RouteSelection() {
+  const {trips} = useAppSelector((s) => s.trip)
+
+  console.log(trips)
+
   return (
     <div className="bg-gray-50 rounded-xl p-4 text-left">
       {/* Body heading */}
@@ -16,6 +21,7 @@ export function RouteSelection() {
 
       {/* Route selection */}
       <div className="flex flex-col gap-2">
+
         <RadioGroup>
           <RouteOption
             id="route1"
