@@ -19,7 +19,7 @@ export function RadioCard({
   return (
     <label
       htmlFor={id}
-      className={`flex gap-4 p-3 bg-white rounded-md transition-all cursor-pointer border ${
+      className={`relative flex gap-4 p-3 bg-white rounded-md transition-all cursor-pointer border ${
         isActive
           ? "border-gray-400"
           : "border-transparent hover:ring-1 hover:ring-gray-200"
@@ -28,7 +28,7 @@ export function RadioCard({
       {/* Content area */}
       <div className="flex flex-col grow">{children}</div>
       {/* Radio selector */}
-      <div>
+      <div className="absolute top-3 right-3">
         <RadioGroupItem value={value} id={id} disabled={disabled} />
       </div>
     </label>

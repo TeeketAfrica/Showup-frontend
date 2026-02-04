@@ -31,6 +31,9 @@ export function flattenTrip(trip: any) {
   return {
     ...rest,
     bus_id: bus?.id,
+    driver_first_name: bus?.driver.first_name,
+    driver_last_name: bus?.driver.last_name,
+    color: bus?.color,
     bus_name: bus?.name,
     capacity: bus?.capacity,
     plate_number: bus?.plate_number,
@@ -116,6 +119,7 @@ export function BusSelection() {
     }
   }
 
+  console.log("tripBuses:", tripBuses)
   return (
     <div className="bg-gray-50 rounded-xl p-4 text-left">
       <h2 className="text-sm font-semibold mb-4">Bus selection</h2>
@@ -139,6 +143,10 @@ export function BusSelection() {
                 busType={bus.bus_name || ""}
                 seatLeft={bus.capacity}
                 price={parseInt(bus.price || "0")}
+                driver_first_name={bus.driver_first_name || ""}
+                driver_last_name={bus.driver_last_name || ""}
+                plate_number={bus.plate_number || ""}
+                color={bus.color || ""}
                 isActive={selectedBusId === bus.bus_id}
               />
             ))}
