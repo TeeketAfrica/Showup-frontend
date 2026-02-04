@@ -124,7 +124,11 @@ export function BusSelection() {
         <>
           <RadioGroup
             value={selectedBusId}
-            onValueChange={setSelectedBusId}
+            onValueChange={(value) => {
+              if (typeof value === "string") {
+                setSelectedBusId(value)
+              }
+            }}
             className="flex flex-col gap-2"
           >
             {tripBuses.map((bus) => (
@@ -167,9 +171,15 @@ export function BusSelection() {
               </DialogDescription>
             </DialogHeader>
 
-            <Select value={gateway} onValueChange={setGateway}>
+            <Select value={gateway} 
+            onValueChange={(value) => {
+                if (typeof value === "string") {
+                  setGateway(value)
+                }
+              }}
+            >
               <SelectTrigger className="w-full mt-4">
-                <SelectValue placeholder="Select Gateway" />
+                <SelectValue/>
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
