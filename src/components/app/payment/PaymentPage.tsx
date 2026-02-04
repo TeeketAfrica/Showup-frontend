@@ -12,20 +12,24 @@ import { formatTo12HourTime } from "@/lib/utils";
 import { clearSelectedUniqueRouteId, type Trip } from "@/store/features/tripSlice";
 import { clearSelectedBus } from "@/store/features/busSlice";
 import type { BusProps } from "@/lib/types";
+import { useNavigate } from "react-router-dom";
 
 export function PaymentPage() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [tripData, setTripData] = useState<Trip | null>(null);
   const [busData, setBusData] = useState<BusProps | null>(null);
 
   useEffect(() => {
     setTripData(JSON.parse(localStorage.getItem('selectedTrip') || ''))
     setBusData(JSON.parse(localStorage.getItem('selectedbus') || ''))
+    localStorage.setItem('confirmPayment', 'true')
   }, []);
 
   const handleClear = async () =>{
     dispatch(clearSelectedBus());
     dispatch(clearSelectedUniqueRouteId());
+    navigate('/')
   }
 
   return (
