@@ -5,7 +5,6 @@ import { RadioGroup } from "@/components/ui/radio-group"
 import { BusOption } from "./BusOption"
 import { Button } from "@/components/ui/button"
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks"
-import { useNavigate } from "react-router"
 import { setSelecteddBus } from "@/store/features/busSlice"
 import { bookTrip, initiatePayment } from "@/store/actions/tripActions"
 import {
