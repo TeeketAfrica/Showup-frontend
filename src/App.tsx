@@ -4,7 +4,6 @@ import { RoutePage } from "@/components/app/route-bus/RoutePage";
 import { PaymentPage } from "@/components/app/payment/PaymentPage";
 
 export function App() {
-
   return (
     <Routes>
       <Route index element={<HomePage />} />
