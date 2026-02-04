@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import TripService from "../services/tripService";
+import TripService, { type TripBookingProps, type TripPaymentProps } from "../services/tripService";
 
 export const getTrips = createAsyncThunk(
   "trip/getTrip",
@@ -10,6 +10,30 @@ export const getTrips = createAsyncThunk(
     try {
       const data = await TripService.GetTrips();
       return data.data;
+    } catch (err: any) {
+      return thunkAPI.rejectWithValue(err.response?.data?.message);
+    }
+  }
+);
+
+
+export const bookTrip = createAsyncThunk(
+  "trip/bookTrip",
+  async (data: TripBookingProps, thunkAPI) => {
+    try {
+      const res = await TripService.BookTrip(data);
+      return res;
+    } catch (err: any) {
+      return thunkAPI.rejectWithValue(err.response?.data?.message);
+    }
+  }
+);
+export const initiatePayment = createAsyncThunk(
+  "trip/initiatePayment",
+  async (data: TripPaymentProps, thunkAPI) => {
+    try {
+      const res = await TripService.InitiatePayment(data);
+      return res.data;
     } catch (err: any) {
       return thunkAPI.rejectWithValue(err.response?.data?.message);
     }

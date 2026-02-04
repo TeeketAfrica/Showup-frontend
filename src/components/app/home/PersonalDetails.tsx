@@ -125,7 +125,7 @@ export function PersonalDetails() {
           onClick={isRegisterMode ? handleRegister : handleContinue}
           type="button"
         >
-          {loading || phone.length < 10 ? "Checking..." : isRegisterMode ? "Register" : "Continue"}
+          {loading? "Checking..." : isRegisterMode ? "Register" : "Continue"}
         </Button>
       </form>
     </div>

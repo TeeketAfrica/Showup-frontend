@@ -7,11 +7,19 @@ interface RouteOptionProps {
   from: string;
   to: string;
   time: string;
+  isActive?: boolean;
 }
 
-export function RouteOption({ id, value, from, to, time }: RouteOptionProps) {
+export function RouteOption({
+  id,
+  value,
+  from,
+  to,
+  time,
+  isActive,
+}: RouteOptionProps) {
   return (
-    <RadioCard id={id} value={value}>
+    <RadioCard id={id} value={value} isActive={isActive}>
       {/* icon + trip name */}
       <div className="flex items-center gap-1">
         <Map size="16" className="text-blue-500" />

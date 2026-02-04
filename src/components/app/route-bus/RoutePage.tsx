@@ -19,7 +19,7 @@ export function RoutePage() {
             {/* Bus selection */}
             <BusSelection />
             {/* empty state */}
-            <BusEmpty />
+            {/* <BusEmpty /> */}
           </div>
         </Card>
       </div>

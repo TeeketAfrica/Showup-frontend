@@ -16,6 +16,9 @@ export interface BusProps{
     plate_number: string,
     is_active: boolean,
     color: string
+    price?: string
+    bus_name?: string
+    bus_id?: string
 }
 
 export interface RouteProps{

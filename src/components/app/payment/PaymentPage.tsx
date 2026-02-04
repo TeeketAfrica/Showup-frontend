@@ -5,8 +5,29 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import successIcon from "@/assets/successIcon.svg";
 import { Bus, Clock } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import { useEffect, useState } from "react";
+import { formatTo12HourTime } from "@/lib/utils";
+// import { Trip } from "@/store/features/tripSlice";
+import { clearSelectedUniqueRouteId, type Trip } from "@/store/features/tripSlice";
+import { clearSelectedBus } from "@/store/features/busSlice";
+import type { BusProps } from "@/lib/types";
 
 export function PaymentPage() {
+  const dispatch = useAppDispatch();
+  const [tripData, setTripData] = useState<Trip | null>(null);
+  const [busData, setBusData] = useState<BusProps | null>(null);
+
+  useEffect(() => {
+    setTripData(JSON.parse(localStorage.getItem('selectedTrip') || ''))
+    setBusData(JSON.parse(localStorage.getItem('selectedbus') || ''))
+  }, []);
+
+  const handleClear = async () =>{
+    dispatch(clearSelectedBus());
+    dispatch(clearSelectedUniqueRouteId());
+  }
+
   return (
     <div className="flex flex-col items-center h-screen">
       {/* Main body */}
@@ -36,7 +57,7 @@ export function PaymentPage() {
                 {/* Type */}
                 <div className="flex items-center gap-1 grow">
                   <Bus size="16" className="text-amber-500" />
-                  <p className="text-sm font-semibold">8 seater bus</p>
+                  <p className="text-sm font-semibold">{busData?.name || ""}</p>
                 </div>
 
                 {/* Notification */}
@@ -45,7 +66,7 @@ export function PaymentPage() {
                   className="rounded-sm text-purple-800 bg-purple-100 pl-1"
                 >
                   <Clock size="12" strokeWidth="3" />
-                  Leaves at 5:30am
+                  Leaves at {formatTo12HourTime(tripData?.start_time || "")}
                 </Badge>
               </div>
 
@@ -53,21 +74,21 @@ export function PaymentPage() {
               <div className="grid grid-cols-3 items-center p-2 rounded-sm bg-gray-100">
                 <div className="flex flex-col">
                   <p className="text-xs text-muted-foreground">Plate number</p>
-                  <p className="text-xs font-medium">YAB12793</p>
+                  <p className="text-xs font-medium">{busData?.plate_number || ""}</p>
                 </div>
                 <div className="flex flex-col">
                   <p className="text-xs text-muted-foreground">Vehicle color</p>
-                  <p className="text-xs font-medium">Gold</p>
+                  <p className="text-xs font-medium">{busData?.color || ""}</p>
                 </div>
                 <div className="flex flex-col">
                   <p className="text-xs text-muted-foreground">Driver</p>
-                  <p className="text-xs font-medium">Adams Musa</p>
+                  <p className="text-xs font-medium">{busData?.driver?.first_name || ""} {busData?.driver?.last_name || ""}</p>
                 </div>
               </div>
             </div>
 
-            <Button size="lg" className="w-full cursor-pointer">
-              Book another ride
+            <Button onClick={handleClear} size="lg" className="w-full cursor-pointer">
+              Go back to home
             </Button>
           </div>
         </Card>

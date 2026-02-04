@@ -6,12 +6,14 @@ import type { BusProps } from "@/lib/types";
 
 interface BusState {
   buses: BusProps[] | null;
+  selectedBus: BusProps | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: BusState = {
   buses: null,
+  selectedBus: null,
   loading: false,
   error: null,
 };
@@ -21,10 +23,13 @@ const busSlice = createSlice({
   name: "bus",
   initialState,
   reducers: {
-    // logout: (state) => {
-    //   state.user = null;
-    //   localStorage.removeItem("token");
-    // },
+    setSelecteddBus: (state, action) => {
+      state.selectedBus = action.payload;
+      localStorage.clear()
+    },
+    clearSelectedBus: (state) => {
+      state.selectedBus = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -45,4 +50,5 @@ const busSlice = createSlice({
   },
 });
 
+export const { setSelecteddBus, clearSelectedBus } = busSlice.actions;
 export default busSlice.reducer;

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getTrips } from "../actions/tripActions";
 import type { BusProps, RouteProps } from "@/lib/types";
 
-interface Trip {
+export interface Trip {
     bus: BusProps,
     route: RouteProps,
     price: string,
@@ -19,12 +19,14 @@ interface Trip {
 
 interface TripState {
   trips: Trip[] | null;
+  selectedUniqueRouteId: string | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: TripState = {
   trips: null,
+  selectedUniqueRouteId: null,
   loading: false,
   error: null,
 };
@@ -34,6 +36,12 @@ const tripSlice = createSlice({
   name: "trip",
   initialState,
   reducers: {
+    setSelectedUniqueRouteId: (state, action) => {
+      state.selectedUniqueRouteId = action.payload;
+    },
+    clearSelectedUniqueRouteId: (state) => {
+      state.selectedUniqueRouteId = null;
+    }
     // logout: (state) => {
     //   state.user = null;
     //   localStorage.removeItem("token");
@@ -58,4 +66,5 @@ const tripSlice = createSlice({
   },
 });
 
+export const {setSelectedUniqueRouteId, clearSelectedUniqueRouteId} = tripSlice.actions;
 export default tripSlice.reducer;

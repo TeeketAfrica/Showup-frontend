@@ -4,7 +4,7 @@ import BusService from "../services/busService";
 export const getBusByRoute = createAsyncThunk(
   "bus/get_bus_by_route",
   async (
-     {route_id}: {route_id:string},
+     route_id: string,
     thunkAPI
   ) => {
     try {

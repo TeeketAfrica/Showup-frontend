@@ -4,7 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 export function Stepper() {
   const navigate = useNavigate()
-  const {exists} = useAppSelector ((s) => s.auth);
+  const {
+    auth: {exists},
+    bus: {selectedBus},
+    trip: {selectedUniqueRouteId}
+  } = useAppSelector ((s) => s);
+
+  console.log(exists, selectedBus, selectedUniqueRouteId);
 
   useEffect(() => { 
     if(exists){
@@ -25,7 +31,7 @@ export function Stepper() {
           <div className="min-w-18 h-0.5 bg-gray-300 flex-1"></div>
 
           {/* Step 2 — Upcoming */}
-          <StepItem step="2" stepLabel="Route selection" state="incomplete" path="/route" />
+          <StepItem step="2" stepLabel="Route selection" state={exists && selectedBus && selectedUniqueRouteId ? "complete" : exists && !selectedBus && !selectedUniqueRouteId ? "current" : "incomplete"} path="/route" />
 
           {/* separator */}
           <div className="min-w-18 h-0.5 bg-gray-300 flex-1"></div>

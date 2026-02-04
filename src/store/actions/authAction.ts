@@ -9,7 +9,7 @@ export const checkUser = createAsyncThunk(
   ) => {
     try {
       const data = await AuthService.CheckUser(mobile);
-      return data.user;
+      return data;
     } catch (err: any) {
       return thunkAPI.rejectWithValue(err.response?.data?.message);
     }
