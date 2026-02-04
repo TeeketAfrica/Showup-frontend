@@ -3,7 +3,6 @@ import { Header } from "@/components/shared/Header";
 import { Stepper } from "@/components/shared/Stepper";
 import { RouteSelection } from "./route/RouteSelection";
 import { BusSelection } from "./bus/BusSelection";
-import { BusEmpty } from "./bus/BusEmpty";
 
 export function RoutePage() {
   return (

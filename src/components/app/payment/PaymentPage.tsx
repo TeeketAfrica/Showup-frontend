@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import successIcon from "@/assets/successIcon.svg";
 import { Bus, Clock } from "lucide-react";
-import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import { useAppDispatch } from "@/hooks/reduxHooks";
 import { useEffect, useState } from "react";
 import { formatTo12HourTime } from "@/lib/utils";
 // import { Trip } from "@/store/features/tripSlice";
