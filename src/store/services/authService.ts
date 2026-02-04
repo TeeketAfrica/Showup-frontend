@@ -15,7 +15,7 @@ export default class AuthService {
      };
      
     static async RegisterUser(payload: RegisterUserPayload) {
-        const res = await axios.post("/users/", payload);
+        const res = await axios.post("/users", payload);
         return res.data;
      };
 
