@@ -1,9 +1,8 @@
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { StepItem } from "./StepItem";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
 export function Stepper() {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const {
     auth: {exists},
     bus: {selectedBus},
@@ -11,14 +10,6 @@ export function Stepper() {
   } = useAppSelector ((s) => s);
 
   const confirmPayment = localStorage.getItem('payment')
-
-  useEffect(() => { 
-    if(exists){
-      navigate('/route')
-    }    
-  }, [exists]);
-
-
 
   return (
     <div className="max-w-3xl py-10">

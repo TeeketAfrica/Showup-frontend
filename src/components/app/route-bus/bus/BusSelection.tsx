@@ -49,7 +49,7 @@ export function BusSelection() {
   const [open, setOpen] = useState(false)
   const [selectedBusId, setSelectedBusId] = useState("")
   const [bookingId, setBookingId] = useState("")
-  const [gateway, setGateway] = useState("")
+  const [gateway, setGateway] = useState("paystack")
 
   const {
     trip: { selectedUniqueRouteId, trips },
@@ -112,8 +112,6 @@ export function BusSelection() {
     try {
       const res = await(dispatch(initiatePayment(params))).unwrap()
       window.location.href = res.authorization_url;
-      
-      
     } catch (error) {
       console.log("Payment error:", error)
     }

@@ -23,12 +23,15 @@ export function PersonalDetails() {
     email: "",
   });
 
-  const handleContinue = () => {
-    if (!exists) {
-      dispatch(checkUser({mobile: phone}));
-    }else{
-      navigate('/route')
+  const handleContinue = async() => {
+    try {
+        await dispatch(checkUser({mobile: phone}));
+        navigate('/route')      
+    } catch (error) {
+      console.error("Error checking user:", error);
     }
+
+
   };
 
   const isRegisterMode = exists === false;
