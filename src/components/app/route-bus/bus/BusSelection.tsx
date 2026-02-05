@@ -85,6 +85,7 @@ export function BusSelection() {
     const trip = trips?.find((t) => t.bus?.id === selectedBusId)
     if (!trip) return
 
+    try {
     const res = await dispatch(
       bookTrip({
         trip_id: trip.id,
@@ -94,8 +95,15 @@ export function BusSelection() {
     ).unwrap()
     
     setBookingId(res.id)
+    console.log("Booking successful, ID:", res.id)
 
-    setOpen(true)
+    setOpen(true)      
+    } catch (error) {
+      console.log("Booking error:", error)
+      return
+    }
+
+
   }
 
   const handleSubmitPayment = async(e: React.FormEvent) => {
@@ -153,7 +161,7 @@ export function BusSelection() {
             <Button variant="outline">Back</Button>
             <Button
               onClick={handleBookTrip}
-              disabled={!selectedBusId}
+              disabled={!selectedBusId || !user?.id || !selectedUniqueRouteId}
             >
               Proceed to pay
             </Button>

@@ -4,6 +4,7 @@ import { PersonalDetails } from "@/components/app/home/PersonalDetails";
 import { Stepper } from "@/components/shared/Stepper";
 
 export function HomePage() {
+
   return (
     <div className="flex flex-col items-center h-screen">
       {/* Main body */}
@@ -12,8 +13,7 @@ export function HomePage() {
           {/* Showup logo + description */}
           <Header />
 
-          {/* Main content here */}
-          <PersonalDetails />
+          <PersonalDetails />            
         </Card>
       </div>
 
