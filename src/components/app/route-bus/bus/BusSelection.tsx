@@ -24,7 +24,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { ChevronLeftIcon } from "lucide-react"
 
 export function flattenTrip(trip: any) {
   const { bus, route, ...rest } = trip
@@ -140,7 +141,11 @@ export function BusSelection() {
   },[bookingId])
 
   return (
-    <div className="bg-gray-50 rounded-xl p-4 text-left">
+    <>
+      {
+          
+          tripBuses.length >0 ?
+              <div className="bg-gray-50 rounded-xl p-4 text-left">
       <h2 className="text-sm font-semibold mb-4">Bus selection</h2>
 
       {selectedUniqueRouteId ? (
@@ -219,7 +224,10 @@ export function BusSelection() {
 
             <DialogFooter className="mt-6 ">
               <div className="flex gap-3 items-center w-full">
-                <Button variant="outline">Cancel</Button>
+                <Link to='/'>
+                  <Button variant="outline">Cancel</Button>      
+                </Link>
+
 
                 <Button type="submit" disabled={!gateway || paymentLoading}>
                   {paymentLoading ? "Processing..." : "Continue"}
@@ -231,6 +239,15 @@ export function BusSelection() {
           </form>
         </DialogContent>
       </Dialog>
-    </div>
+    </div>:
+    <Link to='/'>
+      <Button> <ChevronLeftIcon/> Back</Button>      
+    </Link>
+
+      
+    }
+    
+    </>
+
   )
 }

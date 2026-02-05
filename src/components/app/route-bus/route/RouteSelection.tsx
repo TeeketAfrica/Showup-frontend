@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { getTrips } from "@/store/actions/tripActions";
 import { formatTo12HourTime } from "@/lib/utils";
 import { setSelectedUniqueRouteId, type Trip } from "@/store/features/tripSlice";
+import spinner from '@/assets/spinner.gif'
 
 interface RouteInfo {
   routeId: string;
@@ -36,7 +37,7 @@ export function getUniqueRoutes(trips: Trip[]): RouteInfo[] {
 export function RouteSelection() {
   const dispatch = useAppDispatch()
   const [selectedRouteId, setSelectedRouteId] = useState("");  
-  const {trips} = useAppSelector((s) => s.trip)
+  const {trips, loading} = useAppSelector((s) => s.trip)
 
   const uniqueTrips = getUniqueRoutes(trips || []);
 
@@ -66,26 +67,36 @@ export function RouteSelection() {
           Choose your route first and then select the bus to take next.
         </p>
       </div>
+      {
+        loading?
+        <div className="w-full flex justify-center items-center pt-4">
+          <img src={spinner} alt="" className="w-14 h-14"/>
+        </div>
+        :
 
-      <div className="flex flex-col gap-2">
-        <RadioGroup
-          value={selectedRouteId}
-          onValueChange={(val) => setSelectedRouteId(val as string)}
-        >
-          {
-            uniqueTrips?.map((trip) => (
-              <RouteOption
-                key={trip.routeId}
-                id={trip.routeId}
-                value={trip.routeId}
-                from={trip.source}
-                to={trip.destination}
-                time={formatTo12HourTime(trip.start_time)}
-                isActive={selectedRouteId === trip.routeId}
-              />
-            ))}
-        </RadioGroup>
-      </div>
+        uniqueTrips.length > 0 ? 
+        <div className="flex flex-col gap-2">
+          <RadioGroup
+            value={selectedRouteId}
+            onValueChange={(val) => setSelectedRouteId(val as string)}
+          >
+            {
+              uniqueTrips?.map((trip) => (
+                <RouteOption
+                  key={trip.routeId}
+                  id={trip.routeId}
+                  value={trip.routeId}
+                  from={trip.source}
+                  to={trip.destination}
+                  time={formatTo12HourTime(trip.start_time)}
+                  isActive={selectedRouteId === trip.routeId}
+                />
+              ))}
+          </RadioGroup>
+        </div>   : <p className="text-muted-foreground">No trips available. Kindly check back later</p>     
+      }
+
+
     </div>
   );
 }
