@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getTrips } from "../actions/tripActions";
+import { bookTrip, getTrips } from "../actions/tripActions";
 import type { BusProps, RouteProps } from "@/lib/types";
 
 export interface Trip {
@@ -21,11 +21,13 @@ interface TripState {
   trips: Trip[] | null;
   selectedUniqueRouteId: string | null;
   loading: boolean;
+  isBooking: boolean;
   error: string | null;
 }
 
 const initialState: TripState = {
   trips: null,
+  isBooking: false,
   selectedUniqueRouteId: null,
   loading: false,
   error: null,
@@ -60,6 +62,17 @@ const tripSlice = createSlice({
       })
       .addCase(getTrips.rejected, (state, action) => {
         state.loading = false;
+        state.error = action.payload as string;
+      })
+
+      .addCase(bookTrip.pending, (state) => {
+        state.isBooking = true;
+      })
+      .addCase(bookTrip.fulfilled, (state,) => {
+        state.isBooking = false;
+      })
+      .addCase(bookTrip.rejected, (state, action) => {
+        state.isBooking = false;
         state.error = action.payload as string;
       })
 
