@@ -7,9 +7,11 @@ import { useAppSelector } from "@/hooks/reduxHooks";
 import MovingBus from "@/assets/movingbus.gif";
 
 export function RoutePage() {
-const {isBooking} = useAppSelector((s) => s.trip);
+const {
+  trip :{isBooking}
+} = useAppSelector((s) => s);
 
-  console.log("isBooking", isBooking)
+
   return (
     <div className="flex flex-col items-center h-screen">
       {/* Main body */}
