@@ -29,7 +29,7 @@ export function PaymentPage() {
   const handleClear = async () =>{
     dispatch(clearSelectedBus());
     dispatch(clearSelectedUniqueRouteId());
-    navigate('/')
+    navigate('/route')
   }
 
   return (
