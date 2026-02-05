@@ -8,7 +8,7 @@ import MovingBus from "@/assets/movingbus.gif";
 
 export function RoutePage() {
 const {
-  trip :{isBooking}
+  trip :{isBooking, isPaying}
 } = useAppSelector((s) => s);
 
 
@@ -21,14 +21,14 @@ const {
           <Header />
           {/* Route selection */}
 
-            <div className={`p-4 mt-[-100px] z-0 text-left ${isBooking ? 'block' : 'hidden'}`}>
-              <img src={MovingBus} alt="Loading" className="w-[300px] z-0 mx-auto mb-4" />
-              <p className="text-sm z-10 mt-[-100px] py-3 text-center text-muted-foreground">
-                Booking your trip, please wait...
+            <div className={`p-4 -mt-25 z-0 text-left ${isBooking || isPaying ? 'block' : 'hidden'}`}>
+              <img src={MovingBus} alt="Loading" className="w-75 z-0 mx-auto mb-4" />
+              <p className="text-sm z-10 -mt-25 py-3 text-center text-muted-foreground">
+                {isBooking ? "Booking your trip, please wait..." : "Processing payment, please wait..."}
               </p>
             </div>
 
-            <div className={` flex-col gap-2" ${isBooking ? 'hidden' : 'flex'}`}>
+            <div className={` flex-col gap-2 ${isBooking || isPaying ? 'hidden' : 'flex'}`}>
               <RouteSelection />
               {/* Bus selection */}
               <BusSelection />

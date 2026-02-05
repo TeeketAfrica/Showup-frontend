@@ -24,6 +24,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Link, useNavigate } from "react-router-dom"
+import { ChevronLeftIcon } from "lucide-react"
 
 export function flattenTrip(trip: any) {
   const { bus, route, ...rest } = trip
@@ -46,10 +48,12 @@ export function flattenTrip(trip: any) {
 
 export function BusSelection() {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [selectedBusId, setSelectedBusId] = useState("")
   const [bookingId, setBookingId] = useState("")
   const [gateway, setGateway] = useState("paystack")
+  const [paymentLoading, setPaymentLoading] = useState(false)
 
   const {
     trip: { selectedUniqueRouteId, trips },
@@ -95,9 +99,8 @@ export function BusSelection() {
     ).unwrap()
     
     setBookingId(res.id)
-    console.log("Booking successful, ID:", res.id)
 
-    setOpen(true)      
+    // setOpen(true)      
     } catch (error) {
       console.log("Booking error:", error)
       return
@@ -106,8 +109,10 @@ export function BusSelection() {
 
   }
 
-  const handleSubmitPayment = async(e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmitPayment = async() => {
+
+  // const handleSubmitPayment = async(e: React.FormEvent) => {
+  //   e.preventDefault()
     if (!bookingId || !gateway) return;
 
     const params = {
@@ -118,16 +123,29 @@ export function BusSelection() {
     }
 
     try {
+      setPaymentLoading(true)
       const res = await(dispatch(initiatePayment(params))).unwrap()
       window.location.href = res.authorization_url;
     } catch (error) {
       console.log("Payment error:", error)
+    } finally {
+      setPaymentLoading(false)
     }
   }
 
-  console.log("tripBuses:", tripBuses)
+  useEffect(()=>{
+    if(bookingId){
+      handleSubmitPayment()
+      setBookingId('')
+    }
+  },[bookingId])
+
   return (
-    <div className="bg-gray-50 rounded-xl p-4 text-left">
+    <>
+      {
+          
+          tripBuses.length >0 ?
+              <div className="bg-gray-50 rounded-xl p-4 text-left">
       <h2 className="text-sm font-semibold mb-4">Bus selection</h2>
 
       {selectedUniqueRouteId ? (
@@ -159,7 +177,7 @@ export function BusSelection() {
           </RadioGroup>
 
           <div className="grid grid-cols-2 gap-4 mt-6">
-            <Button variant="outline">Back</Button>
+            <Button onClick={()=>navigate('/')} variant="outline">Back</Button>
             <Button
               onClick={handleBookTrip}
               disabled={!selectedBusId || !user?.id || !selectedUniqueRouteId}
@@ -198,7 +216,7 @@ export function BusSelection() {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Gateways</SelectLabel>
-                  <SelectItem value="flutterwave">Flutterwave</SelectItem>
+                  {/* <SelectItem value="flutterwave">Flutterwave</SelectItem> */}
                   <SelectItem value="paystack">Paystack</SelectItem>
                 </SelectGroup>
               </SelectContent>
@@ -206,10 +224,13 @@ export function BusSelection() {
 
             <DialogFooter className="mt-6 ">
               <div className="flex gap-3 items-center w-full">
-                <Button variant="outline">Cancel</Button>
+                <Link to='/'>
+                  <Button variant="outline">Cancel</Button>      
+                </Link>
 
-                <Button type="submit" disabled={!gateway}>
-                  Continue
+
+                <Button type="submit" disabled={!gateway || paymentLoading}>
+                  {paymentLoading ? "Processing..." : "Continue"}
                 </Button>                
               </div>
 
@@ -218,6 +239,15 @@ export function BusSelection() {
           </form>
         </DialogContent>
       </Dialog>
-    </div>
+    </div>:
+    <Link to='/'>
+      <Button> <ChevronLeftIcon/> Back</Button>      
+    </Link>
+
+      
+    }
+    
+    </>
+
   )
 }
