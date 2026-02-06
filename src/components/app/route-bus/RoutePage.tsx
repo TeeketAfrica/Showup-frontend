@@ -24,7 +24,7 @@ const {
             <div className={`p-4 -mt-25 z-0 text-left ${isBooking || isPaying ? 'block' : 'hidden'}`}>
               <img src={MovingBus} alt="Loading" className="w-75 z-0 mx-auto mb-4" />
               <p className="text-sm z-10 -mt-25 py-3 text-center text-muted-foreground">
-                {isBooking ? "Booking your trip, please wait..." : "Processing payment, please wait..."}
+                {isBooking ? "Booking your trip, please wait..." : "Initiating payment, please wait..."}
               </p>
             </div>
 

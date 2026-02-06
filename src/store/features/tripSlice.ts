@@ -82,7 +82,7 @@ const tripSlice = createSlice({
         state.isPaying = true;
       })
       .addCase(initiatePayment.fulfilled, (state,) => {
-        state.isPaying = false;
+        // state.isPaying = false;
       })
       .addCase(initiatePayment.rejected, (state, action) => {
         state.isPaying = false;
