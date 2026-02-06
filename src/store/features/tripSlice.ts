@@ -81,9 +81,9 @@ const tripSlice = createSlice({
       .addCase(initiatePayment.pending, (state) => {
         state.isPaying = true;
       })
-      .addCase(initiatePayment.fulfilled, (state,) => {
-        state.isPaying = false;
-      })
+      // .addCase(initiatePayment.fulfilled, (state,) => {
+        // state.isPaying = false;
+      // })
       .addCase(initiatePayment.rejected, (state, action) => {
         state.isPaying = false;
         state.error = action.payload as string;
