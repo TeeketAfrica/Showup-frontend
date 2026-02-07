@@ -1,26 +1,30 @@
 import { Card } from "@/components/ui/card";
-import { Header } from "@/components/shared/Header";
-import { Stepper } from "@/components/shared/Stepper";
 import { RouteSelection } from "./route/RouteSelection";
 import { BusSelection } from "./bus/BusSelection";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import MovingBus from "@/assets/movingbus.gif";
+import BasicLayout from "@/components/Layout.tsx/BasicLayout";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function RoutePage() {
-const {
-  trip :{isBooking, isPaying}
-} = useAppSelector((s) => s);
+  const navigate = useNavigate()
+  const {
+    trip :{isBooking, isPaying},
+    auth :{user}
+  } = useAppSelector((s) => s);
 
 
+  useEffect(()=>{
+    if(!user){
+      navigate('/')
+    }
+  },[user])
   return (
-    <div className="flex flex-col items-center h-screen">
-      {/* Main body */}
-      <div className="container flex-1 flex flex-col justify-center items-center">
+    <BasicLayout>
         <Card className="max-w-sm shadow-none border-0 ring-0 focus-visible:ring-0 focus:ring-0">
-          {/* Showup logo + description */}
-          <Header />
-          {/* Route selection */}
 
+          {/* Route selection */}
             <div className={`p-4 -mt-25 z-0 text-left ${isBooking || isPaying ? 'block' : 'hidden'}`}>
               <img src={MovingBus} alt="Loading" className="w-75 z-0 mx-auto mb-4" />
               <p className="text-sm z-10 -mt-25 py-3 text-center text-muted-foreground">
@@ -36,11 +40,8 @@ const {
               {/* <BusEmpty /> */}
             </div>
 
-        </Card>
-      </div>
+        </Card>      
+    </BasicLayout>
 
-      {/* Stepper UI to move between steps*/}
-      <Stepper />
-    </div>
   );
 }

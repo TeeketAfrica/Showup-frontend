@@ -12,6 +12,10 @@ export interface TripPaymentProps  {
     payment_gateway: string;
     callback_url: string;
 }
+export interface NotifyMeProps  {
+    user_id: string;
+    route_id: string;
+}
 
 export default class TripService {
     static async GetTrips() {
@@ -28,6 +32,10 @@ export default class TripService {
      };
     static async InitiatePayment(data: TripPaymentProps) {
         const res = await axios.post("/payments/initialize", data);
+        return res.data;
+     };
+    static async NotifyMe(data: NotifyMeProps) {
+        const res = await axios.post("/trips/notify", data);
         return res.data;
      };
 

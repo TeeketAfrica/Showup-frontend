@@ -15,3 +15,20 @@ export function formatTo12HourTime(dateString: string): string {
     hour12: true,
   });
 }
+
+
+export function maskPhoneNumber(phone: string): string {
+  if (!phone) return "";
+
+  // Remove spaces, dashes, etc.
+  const cleaned = phone.replace(/\D/g, "");
+
+  // We expect at least 11 digits (typical NG number)
+  if (cleaned.length < 7) {
+    throw new Error("Invalid phone number");
+  }
+
+  const firstPart = cleaned.slice(0, 4);
+
+  return `${firstPart} *** ****`;
+}

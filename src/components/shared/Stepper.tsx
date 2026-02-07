@@ -12,7 +12,7 @@ export function Stepper() {
   const confirmPayment = localStorage.getItem('payment')
 
   return (
-    <div className="max-w-3xl py-10">
+    <div className="max-w-3xl pt-3 pb-8 px-2">
       <nav aria-label="Progress" className="w-full">
         <ol className="flex items-center gap-4">
           {/* Step 1 — Active */}

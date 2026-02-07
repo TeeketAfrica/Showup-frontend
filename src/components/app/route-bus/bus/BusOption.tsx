@@ -7,6 +7,7 @@ interface BusOptionProps {
   value: string;
   busType: string;
   seatLeft: number;
+  totalSeat:number;
   price: number;
   driver_first_name: string;
   driver_last_name: string;
@@ -20,6 +21,7 @@ export function BusOption({
   id,
   value,
   busType,
+  totalSeat,
   seatLeft,
   price,
   isActive,
@@ -50,9 +52,15 @@ export function BusOption({
         </div>
 
         {/* Trip start time */}
-        <p className="text-muted-foreground text-xs font-normal">
-          Seats remaining: <span className="text-black">{seatLeft}</span>
-        </p>
+        <div className="flex items-center justify-between">
+          <p className="text-muted-foreground text-xs font-normal">
+            Bus Capacity: <span className="text-black">{totalSeat}</span>
+          </p>          
+          <p className="text-muted-foreground text-xs font-normal">
+            Seats remaining: <span className="text-black">{seatLeft}</span>
+          </p>          
+        </div>
+
       </div>
       {
         isActive && (
