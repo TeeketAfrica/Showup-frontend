@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/select"
 import { Link, useNavigate } from "react-router-dom"
 import { ChevronLeftIcon } from "lucide-react"
+import { BusEmpty } from "./BusEmpty"
 
 export function flattenTrip(trip: any) {
   const { bus, route, ...rest } = trip
@@ -70,7 +71,7 @@ export function BusSelection() {
   const tripBuses = useMemo(
     () =>
       flattenedTrips.filter(
-        (t) => t.route_id === selectedUniqueRouteId
+        (t) => (t.route_id === selectedUniqueRouteId && t.available_seats > 0)
       ),
     [flattenedTrips, selectedUniqueRouteId]
   )
@@ -145,108 +146,121 @@ export function BusSelection() {
       {
           
           tripBuses.length >0 ?
-              <div className="bg-gray-50 rounded-xl p-4 text-left">
-      <h2 className="text-sm font-semibold mb-4">Bus selection</h2>
+          <div className="bg-gray-50 rounded-xl p-4 text-left">
+            <h2 className="text-sm font-semibold mb-4">Bus selection</h2>
+            {selectedUniqueRouteId ? (
+              <>
+                <RadioGroup
+                  value={selectedBusId}
+                  onValueChange={(value) => {
+                    if (typeof value === "string") {
+                      setSelectedBusId(value)
+                    }
+                  }}
+                  className="flex flex-col gap-2"
+                >
+                  {tripBuses.map((bus) => (
+                    <BusOption
+                      key={bus.id}
+                      id={bus.id}
+                      value={bus.bus_id || ""}
+                      busType={bus.bus_name || ""}
+                      seatLeft={bus.available_seats}
+                      totalSeat={bus.capacity}
+                      price={parseInt(bus.price || "0")}
+                      driver_first_name={bus.driver_first_name || ""}
+                      driver_last_name={bus.driver_last_name || ""}
+                      plate_number={bus.plate_number || ""}
+                      color={bus.color || ""}
+                      isActive={selectedBusId === bus.bus_id}
+                    />
+                  ))}
+                </RadioGroup>
 
-      {selectedUniqueRouteId ? (
-        <>
-          <RadioGroup
-            value={selectedBusId}
-            onValueChange={(value) => {
-              if (typeof value === "string") {
-                setSelectedBusId(value)
-              }
-            }}
-            className="flex flex-col gap-2"
-          >
-            {tripBuses.map((bus) => (
-              <BusOption
-                key={bus.id}
-                id={bus.id}
-                value={bus.bus_id || ""}
-                busType={bus.bus_name || ""}
-                seatLeft={bus.capacity}
-                price={parseInt(bus.price || "0")}
-                driver_first_name={bus.driver_first_name || ""}
-                driver_last_name={bus.driver_last_name || ""}
-                plate_number={bus.plate_number || ""}
-                color={bus.color || ""}
-                isActive={selectedBusId === bus.bus_id}
-              />
-            ))}
-          </RadioGroup>
+                <div className="grid grid-cols-2 gap-4 mt-6">
+                  <Button onClick={()=>navigate('/')} variant="outline">Back</Button>
+                  <Button
+                    onClick={handleBookTrip}
+                    disabled={!selectedBusId || !user?.id || !selectedUniqueRouteId}
+                  >
+                    Proceed to pay
+                  </Button>
+                </div>
+              </>
+            ) :
+            (
+              <p className="text-sm text-muted-foreground">
+                Please select a route to see available buses.
+              </p>
+            )}
 
-          <div className="grid grid-cols-2 gap-4 mt-6">
-            <Button onClick={()=>navigate('/')} variant="outline">Back</Button>
-            <Button
-              onClick={handleBookTrip}
-              disabled={!selectedBusId || !user?.id || !selectedUniqueRouteId}
-            >
-              Proceed to pay
-            </Button>
+            {/* 🔹 Dialog */}
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogContent className="sm:max-w-sm">
+                <form onSubmit={handleSubmitPayment}>
+                  <DialogHeader>
+                    <DialogTitle>Select Payment Gateway</DialogTitle>
+                    <DialogDescription>
+                      Choose your preferred gateway.
+                    </DialogDescription>
+                  </DialogHeader>
+
+                  <Select value={gateway} 
+                  onValueChange={(value) => {
+                      if (typeof value === "string") {
+                        setGateway(value)
+                      }
+                    }}
+                  >
+                    <SelectTrigger className="w-full mt-4">
+                      <SelectValue/>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Gateways</SelectLabel>
+                        {/* <SelectItem value="flutterwave">Flutterwave</SelectItem> */}
+                        <SelectItem value="paystack">Paystack</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+
+                  <DialogFooter className="mt-6 ">
+                    <div className="flex gap-3 items-center w-full">
+                      <Link to='/'>
+                        <Button variant="outline">Cancel</Button>      
+                      </Link>
+
+
+                      <Button type="submit" disabled={!gateway || paymentLoading}>
+                        {paymentLoading ? "Processing..." : "Continue"}
+                      </Button>                
+                    </div>
+
+
+                  </DialogFooter>
+                </form>
+              </DialogContent>
+            </Dialog>
+          </div>:
+
+          <div>
+            {
+              selectedUniqueRouteId ?
+              <BusEmpty 
+                phone={user?.mobile as string} 
+                userId={user?.id as string}
+                routeId={selectedUniqueRouteId}
+                />:
+              <Link to='/'>
+                <Button> <ChevronLeftIcon/> Back</Button>      
+              </Link>               
+            }
+           
           </div>
-        </>
-      ) : (
-        <p className="text-sm text-muted-foreground">
-          Please select a route to see available buses.
-        </p>
-      )}
 
-      {/* 🔹 Dialog */}
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-sm">
-          <form onSubmit={handleSubmitPayment}>
-            <DialogHeader>
-              <DialogTitle>Select Payment Gateway</DialogTitle>
-              <DialogDescription>
-                Choose your preferred gateway.
-              </DialogDescription>
-            </DialogHeader>
-
-            <Select value={gateway} 
-            onValueChange={(value) => {
-                if (typeof value === "string") {
-                  setGateway(value)
-                }
-              }}
-            >
-              <SelectTrigger className="w-full mt-4">
-                <SelectValue/>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Gateways</SelectLabel>
-                  {/* <SelectItem value="flutterwave">Flutterwave</SelectItem> */}
-                  <SelectItem value="paystack">Paystack</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-
-            <DialogFooter className="mt-6 ">
-              <div className="flex gap-3 items-center w-full">
-                <Link to='/'>
-                  <Button variant="outline">Cancel</Button>      
-                </Link>
-
-
-                <Button type="submit" disabled={!gateway || paymentLoading}>
-                  {paymentLoading ? "Processing..." : "Continue"}
-                </Button>                
-              </div>
-
-
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </div>:
-    <Link to='/'>
-      <Button> <ChevronLeftIcon/> Back</Button>      
-    </Link>
 
       
     }
-    
     </>
 
   )
