@@ -30,7 +30,7 @@ export function PersonalDetails() {
     try {
       // STEP 1: Check if user exists
       if (exists === null) {
-        const res = await dispatch(checkUser({ mobile: phone })).unwrap();
+        await dispatch(checkUser({ mobile: phone })).unwrap();
         navigate("/route");
 
         return;
