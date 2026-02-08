@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
-// import { motion } from "framer-motion";
 import {
   InputGroup,
   InputGroupAddon,
@@ -13,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 export function PersonalDetails() {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { loading, exists } = useAppSelector((s) => s.auth);
 
   const [phone, setPhone] = useState("");
@@ -23,33 +22,41 @@ export function PersonalDetails() {
     email: "",
   });
 
-  const handleContinue = async() => {
-    try {
-        await dispatch(checkUser({mobile: phone}));
-        navigate('/route')      
-    } catch (error) {
-      console.error("Error checking user:", error);
-    }
-
-
-  };
-
   const isRegisterMode = exists === false;
 
-  const handleRegister = () => {
-    if (isRegisterMode) {
-      if(form.firstName && form.lastName && form.email){
-        dispatch(registerUser({
-          mobile: phone,
-          first_name: form.firstName,
-          last_name: form.lastName,
-          email: form.email,
-        }));
-        navigate('/route')
-      }else{
-        alert("Please fill all fields");
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      // STEP 1: Check if user exists
+      if (exists === null) {
+        await dispatch(checkUser({ mobile: phone })).unwrap();
+        navigate("/route");
+
+        return;
       }
-  }
+
+      // STEP 2: Register user if not found
+      if (isRegisterMode) {
+        if (!form.firstName || !form.lastName || !form.email) {
+          alert("Please fill all fields");
+          return;
+        }
+
+        await dispatch(
+          registerUser({
+            mobile: phone,
+            first_name: form.firstName,
+            last_name: form.lastName,
+            email: form.email,
+          })
+        ).unwrap();
+
+        navigate("/route");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+    }
   };
 
   return (
@@ -61,9 +68,9 @@ export function PersonalDetails() {
         </p>
       </div>
 
-      <form className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          {/* PHONE FIELD (ALWAYS FIRST) */}
+          {/* PHONE FIELD */}
           <InputGroup className="bg-white py-5">
             <InputGroupAddon>
               <MessageCircleMore />
@@ -76,7 +83,7 @@ export function PersonalDetails() {
             />
           </InputGroup>
 
-          {/* 👇 SHOW REGISTRATION FIELDS IF USER NOT FOUND */}
+          {/* REGISTRATION FIELDS */}
           {isRegisterMode && (
             <>
               <InputGroup className="bg-white py-5">
@@ -125,10 +132,15 @@ export function PersonalDetails() {
         <Button
           size="lg"
           disabled={loading || phone.length < 10}
-          onClick={isRegisterMode ? handleRegister : handleContinue}
-          type="button"
+          type="submit"
         >
-          {loading? "Checking..." : isRegisterMode ? "Register" : "Continue"}
+          {loading
+            ? "Processing..."
+            : exists === null
+            ? "Continue"
+            : isRegisterMode
+            ? "Register"
+            : "Continue"}
         </Button>
       </form>
     </div>

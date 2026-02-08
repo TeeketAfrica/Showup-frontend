@@ -243,7 +243,7 @@ export function BusSelection() {
             </Dialog>
           </div>:
 
-          <div>
+          <div className="px-2">
             {
               selectedUniqueRouteId ?
               <BusEmpty 
