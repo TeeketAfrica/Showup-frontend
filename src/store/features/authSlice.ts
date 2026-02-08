@@ -52,7 +52,7 @@ const authSlice = createSlice({
       })
       .addCase(checkUser.rejected, (state, action) => {
         state.loading = false;
-        state.exists = false;
+        state.exists = null;
         state.error = action.payload as string;
       })
 
