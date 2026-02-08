@@ -36,15 +36,18 @@ export function PaymentPage() {
     }
   }, []);
 
+  const handleRetake = () => {
+    dispatch(clearSelectedBus());
+    dispatch(clearSelectedUniqueRouteId());
+    localStorage.removeItem('selectedBus')
+    localStorage.removeItem('selectedTrip')
+    navigate("/route");
+  };
   const handleClear = () => {
     dispatch(clearSelectedBus());
     dispatch(clearSelectedUniqueRouteId());
-
-    localStorage.removeItem("selectedTrip");
-    localStorage.removeItem("selectedBus");
-    localStorage.removeItem("confirmPayment");
-
-    navigate("/route");
+    localStorage.clear()
+    navigate("/");
   };
 
   return (
@@ -103,10 +106,15 @@ export function PaymentPage() {
                 </div>
               </div>
             </div>
+            <div className="space-y-2">
+              <Button onClick={handleRetake} size="lg" className="w-full">
+                Book Another Trip
+              </Button>              
+              <Button onClick={handleClear} variant={'outline'} size="lg" className="w-full">
+                Logout
+              </Button>              
+            </div>
 
-            <Button onClick={handleClear} size="lg" className="w-full">
-              Go back to home
-            </Button>
           </div>
         </Card>
       </div>
