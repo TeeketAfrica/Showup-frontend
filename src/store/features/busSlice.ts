@@ -25,7 +25,6 @@ const busSlice = createSlice({
   reducers: {
     setSelecteddBus: (state, action) => {
       state.selectedBus = action.payload;
-      localStorage.clear()
     },
     clearSelectedBus: (state) => {
       state.selectedBus = null;

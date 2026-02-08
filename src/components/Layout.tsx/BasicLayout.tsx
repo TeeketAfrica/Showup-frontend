@@ -9,7 +9,7 @@ const BasicLayout = ({children}:BasicLayoutProps) => {
 
   return (
     <div className="flex flex-col items-center h-screen">
-        <div className="fixed pt-8 bg-white">
+        <div className="fixed pt-8 bg-white z-[9999]">
             <Stepper />             
             <Header />      
         </div>
