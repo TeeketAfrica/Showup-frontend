@@ -56,7 +56,6 @@ const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(checkUser.fulfilled, (state, action) => {
-        console.log("Auth fulfilled with payload:", action.payload);
         localStorage.setItem('userData', JSON.stringify(action.payload))
         state.loading = false;
         state.exists = true;
@@ -64,7 +63,12 @@ const authSlice = createSlice({
       })
       .addCase(checkUser.rejected, (state, action) => {
         state.loading = false;
-        state.exists = null;
+        console.log("Check user error:", action.payload);
+        if(action.payload && (action.payload as string).includes("User was not found")){
+          state.exists = false;
+        }else{
+          state.exists = null;
+        }
         state.error = action.payload as string;
       })
 
