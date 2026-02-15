@@ -18,6 +18,7 @@ interface AuthState {
   exists: boolean | null;
   loading: boolean;
   error: string | null;
+  checked: boolean
 }
 
 const initialState: AuthState = {
@@ -25,6 +26,7 @@ const initialState: AuthState = {
   exists: null,
   loading: false,
   error: null,
+  checked: false
 };
 
 
@@ -32,10 +34,19 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // logout: (state) => {
-    //   state.user = null;
-    //   localStorage.removeItem("token");
-    // },
+    checkExistingUser: (state) => {
+      const existing_userData = localStorage.getItem('userData')
+      if(existing_userData){
+        const existing_user = JSON.parse(existing_userData)
+        state.user = existing_user
+      }else{
+        state.user = null;
+      }
+      state.checked = true;
+    },
+    logout: (state) => {
+      state.user = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -45,14 +56,19 @@ const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(checkUser.fulfilled, (state, action) => {
-        console.log("Auth fulfilled with payload:", action.payload);
+        localStorage.setItem('userData', JSON.stringify(action.payload))
         state.loading = false;
         state.exists = true;
         state.user = action.payload;
       })
       .addCase(checkUser.rejected, (state, action) => {
         state.loading = false;
-        state.exists = false;
+        console.log("Check user error:", action.payload);
+        if(action.payload && (action.payload as string).includes("User was not found")){
+          state.exists = false;
+        }else{
+          state.exists = null;
+        }
         state.error = action.payload as string;
       })
 
@@ -73,4 +89,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { checkExistingUser, logout } = authSlice.actions;
 export default authSlice.reducer;

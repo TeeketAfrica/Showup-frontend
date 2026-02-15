@@ -3,7 +3,7 @@ import { CardDescription } from "@/components/ui/card";
 
 export function Header({ noDescription }: { noDescription?: boolean }) {
   return (
-    <div className="flex flex-col gap-3 items-center text-center z-[999]">
+    <div className="flex flex-col gap-3 items-center text-center z-[99]">
       <h1>
         <img src={Logo} alt="Showup Logo" className="h-6" />
       </h1>

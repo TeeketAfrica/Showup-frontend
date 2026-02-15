@@ -9,13 +9,13 @@ export function App() {
   const {auth :{exists}} = useAppSelector((s) => s);
 
   useEffect(()=>{
-    if( window.location.pathname === "/payment" || window.location.pathname === "/route"){
+    if(window.location.pathname === "/route"){
       if(!exists){
         window.location.href = "/"
       }
     }
   },[exists])
-  
+
   return (
     <Routes>
       <Route index element={<HomePage />} />
