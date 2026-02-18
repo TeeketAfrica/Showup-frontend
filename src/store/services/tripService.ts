@@ -16,6 +16,13 @@ export interface NotifyMeProps  {
     user_id: string;
     route_id: string;
 }
+export interface ManifestProps  {
+    trip_name?: string;
+    trip_id: string;
+    page_index?: number;
+    page_size?: number;
+    ordering?: string;
+}
 
 export default class TripService {
     static async GetTrips() {
@@ -36,6 +43,10 @@ export default class TripService {
      };
     static async NotifyMe(data: NotifyMeProps) {
         const res = await axios.post("/trips/notify", data);
+        return res.data;
+     };
+    static async GetPassangerManifest(data: ManifestProps) {
+        const res = await axios.get(`/trips/passenger-manifest?trip_id=${data.trip_id}&page_index=${data.page_index}&page_size=${data.page_size}&ordering=${data.ordering}`);
         return res.data;
      };
 
