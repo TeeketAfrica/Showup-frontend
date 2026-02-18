@@ -4,6 +4,7 @@ import { RoutePage } from "@/components/app/route-bus/RoutePage";
 import { PaymentPage } from "@/components/app/payment/PaymentPage";
 import { useEffect } from "react";
 import { useAppSelector } from "./hooks/reduxHooks";
+import PassangerManifest from "./components/app/passanger/PassangerManifest";
 
 export function App() {
   const {auth :{exists}} = useAppSelector((s) => s);
@@ -21,6 +22,8 @@ export function App() {
       <Route index element={<HomePage />} />
       <Route path="route" element={<RoutePage />} />
       <Route path="payment" element={<PaymentPage />} />
+      <Route path="passanger-manifest/:tripid" element={<PassangerManifest />} />
+      <Route path="*" element={<h1>404 Not Found</h1>} />
     </Routes>
   );
 }
