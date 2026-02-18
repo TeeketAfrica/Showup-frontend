@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import TripService, { type NotifyMeProps, type TripBookingProps, type TripPaymentProps } from "../services/tripService";
+import TripService, { type ManifestProps, type NotifyMeProps, type TripBookingProps, type TripPaymentProps } from "../services/tripService";
 
 export const getTrips = createAsyncThunk(
   "trip/getTrip",
@@ -44,6 +44,17 @@ export const notifyMe = createAsyncThunk(
   async (data: NotifyMeProps, thunkAPI) => {
     try {
       const res = await TripService.NotifyMe(data);
+      return res.data;
+    } catch (err: any) {
+      return thunkAPI.rejectWithValue(err.response?.data?.message);
+    }
+  }
+);
+export const getPassangerManifest = createAsyncThunk(
+  "trip/getPassangerManifest",
+  async (data: ManifestProps, thunkAPI) => {
+    try {
+      const res = await TripService.GetPassangerManifest(data);
       return res.data;
     } catch (err: any) {
       return thunkAPI.rejectWithValue(err.response?.data?.message);
