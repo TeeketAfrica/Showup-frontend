@@ -6,9 +6,11 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { Button } from "@/components/ui/button";
-import { CircleUser, MessageCircleMore, Mail } from "lucide-react";
+import { CircleUser, Mail } from "lucide-react";
 import { checkUser, registerUser } from "@/store/actions/authAction";
 import { useNavigate } from "react-router-dom";
+import { ShadPhoneInput } from "@/components/ui/phone-input";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 export function PersonalDetails() {
   const dispatch = useAppDispatch();
@@ -71,7 +73,11 @@ export function PersonalDetails() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           {/* PHONE FIELD */}
-          <InputGroup className="bg-white py-5">
+          <ShadPhoneInput
+              value={phone}
+              onChange={(value) => setPhone(value || "")}
+            />
+          {/* <InputGroup className="bg-white py-5">
             <InputGroupAddon>
               <MessageCircleMore />
             </InputGroupAddon>
@@ -81,7 +87,7 @@ export function PersonalDetails() {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
-          </InputGroup>
+          </InputGroup> */}
 
           {/* REGISTRATION FIELDS */}
           {isRegisterMode && (
@@ -131,7 +137,7 @@ export function PersonalDetails() {
 
         <Button
           size="lg"
-          disabled={loading || phone.length < 10}
+          disabled={loading || !phone || !isValidPhoneNumber(phone)}
           type="submit"
         >
           {loading
